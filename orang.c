@@ -3,8 +3,6 @@
 #include "orang.h"
 #include "kota.h"
 
-extern Kota A[10];
-extern int jumlah_kota;
 void menuOrang(int index) {
     int pilihan_orang;
     infotype nama_orang, target_nama;
@@ -33,7 +31,7 @@ void menuOrang(int index) {
                 printf("Masukkan nama orang: ");
                 fgets(nama_orang, sizeof(nama_orang), stdin);
                 nama_orang[strcspn(nama_orang, "\n")] = '\0';
-                InsertFirst(index, nama_orang);
+                InsertLast(index, nama_orang);
                 break;
 
             case 3:
@@ -78,5 +76,3 @@ void Dealokasi(address *a) {
     free(*a);
     *a = NULL;
 }
-
-

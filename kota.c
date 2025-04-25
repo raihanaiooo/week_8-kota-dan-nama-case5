@@ -1,20 +1,29 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include "kota.h"
 
-#define MAX_KOTA 100
 int jumlah_kota = 0;
-Kota A[MAX_KOTA];
+int kapasitas_kota = 5;
+Kota *A;
+
+void inisialisasiKota() {
+    A = (Kota *)malloc(kapasitas_kota * sizeof(Kota));
+}
+
+void realokasiKota() {
+    kapasitas_kota *= 2;
+    A = (Kota *)realloc(A, kapasitas_kota * sizeof(Kota));
+}
 
 void entryKota(infotype nama_kota) {
-    if (jumlah_kota < MAX_KOTA) {
-        strcpy(A[jumlah_kota].nama, nama_kota);
-        A[jumlah_kota].q = NULL;
-        jumlah_kota++;
-    } else {
-        printf("Kapasitas kota penuh (maksimal %d).\n", MAX_KOTA);
+    if (jumlah_kota >= kapasitas_kota) {
+        realokasiKota();
     }
+
+    strcpy(A[jumlah_kota].nama, nama_kota);
+    A[jumlah_kota].q = NULL;
+    jumlah_kota++;
 }
 
 void deleteKota(infotype nama_kota) {
@@ -26,7 +35,6 @@ void deleteKota(infotype nama_kota) {
         }
     }
     if (index != -1) {
-        // Hapus semua orang dalam linked list
         address temp = A[index].q;
         while (temp != NULL) {
             address del = temp;
@@ -34,7 +42,6 @@ void deleteKota(infotype nama_kota) {
             Dealokasi(&del);
         }
 
-        // Geser array A
         for (int i = index; i < jumlah_kota - 1; i++) {
             A[i] = A[i + 1];
         }

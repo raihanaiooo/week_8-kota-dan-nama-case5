@@ -1,17 +1,15 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include "kota.h"
+#include <string.h>
 #include "orang.h"
-
-extern Kota A[10];
-extern int jumlah_kota;
+#include "kota.h"
 
 int main() {
     int pilihan;
     infotype nama_kota, nama_orang;
 
-    // Input minimal 5 kota dulu
+    inisialisasiKota();
+
     printf("=== INPUT MINIMAL 5 KOTA TERLEBIH DAHULU ===\n");
     while (jumlah_kota < 5) {
         printf("\nMasukkan nama kota ke-%d: ", jumlah_kota + 1);
@@ -20,7 +18,6 @@ int main() {
         entryKota(nama_kota);
     }
 
-    // Menu utama setelah minimal 5 kota diinput
     while (1) {
         printf("\n=== MENU UTAMA ===\n");
         printf("1. Tambah Kota\n");
@@ -34,11 +31,6 @@ int main() {
 
         switch (pilihan) {
             case 1: {
-                if (jumlah_kota >= 10) {
-                    printf("Jumlah maksimal kota telah tercapai!\n");
-                    break;
-                }
-
                 printf("Masukkan nama kota: ");
                 fgets(nama_kota, sizeof(nama_kota), stdin);
                 nama_kota[strcspn(nama_kota, "\n")] = '\0';
@@ -60,13 +52,12 @@ int main() {
                 break;
             }
 
-            case 2: {
+            case 2:
                 printf("Masukkan nama kota yang ingin dihapus: ");
                 fgets(nama_kota, sizeof(nama_kota), stdin);
                 nama_kota[strcspn(nama_kota, "\n")] = '\0';
                 deleteKota(nama_kota);
                 break;
-            }
 
             case 3:
                 tampilkanKota();
@@ -90,17 +81,16 @@ int main() {
                 } else {
                     printf("Kota tidak ditemukan.\n");
                 }
-
                 break;
             }
 
             case 5:
-                printf("Terima kasih. Program selesai.\n");
-                exit(0);
+                printf("Terima kasih!\n");
+                free(A);
+                return 0;
 
             default:
                 printf("Pilihan tidak valid.\n");
         }
     }
-    return 0;
 }
